@@ -3,9 +3,8 @@ package com.covid.vaccinaton.centreLocator.service;
 import com.covid.vaccinaton.centreLocator.dao.VaccinationCentreDao;
 import com.covid.vaccinaton.centreLocator.model.CitizenDTO;
 import com.covid.vaccinaton.centreLocator.model.VaccinationCentreDTO;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +14,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
@@ -34,11 +35,11 @@ public class VaccinationCentreServiceTest {
     List<VaccinationCentreDTO> vaccinationCentres= new ArrayList<>();
     VaccinationCentreDTO centre1= new VaccinationCentreDTO();
 
-    @BeforeEach
+    @Before
     public void setup() {
 
         citizen1.setName("Tayna Durr");
-        citizen1.setAge(59);
+        citizen1.setAge(19);
         citizen1.setLatitude(53.09402405506328);
         citizen1.setLongitude(-8.020019531250002);
         citizenList.add(citizen1);
@@ -54,12 +55,23 @@ public class VaccinationCentreServiceTest {
         vaccinationCentres.add(centre1);
     }
 
+    //This will test if vaccination centre is assigned to the citizen
     @Test
     public void testFetchVaccinationCentresForCitizensNotNull() throws Exception {
         when(vaccinationCentreDao.getAvailableVaccinationCentres())
                 .thenReturn(vaccinationCentres);
        List<CitizenDTO> updatedCitizenList= vaccinationCentreService.fetchVaccinationCentresForCitizens(citizenList);
-        Assertions.assertNotNull(updatedCitizenList.get(0).getVaccinationCentre());
+        assertNotNull(updatedCitizenList.get(0).getVaccinationCentre());
     }
+
+    //This will test if citizens are ordered by Age
+    @Test
+    public void testAgeOrderOfPatients() throws Exception {
+        when(vaccinationCentreDao.getAvailableVaccinationCentres())
+                .thenReturn(vaccinationCentres);
+        List<CitizenDTO> updatedCitizenList= vaccinationCentreService.fetchVaccinationCentresForCitizens(citizenList);
+        assertTrue(updatedCitizenList.get(0).getAge()>updatedCitizenList.get(1).getAge());
+    }
+
 
 }

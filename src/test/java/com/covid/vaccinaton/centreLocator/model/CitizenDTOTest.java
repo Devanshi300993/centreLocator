@@ -1,11 +1,12 @@
 package com.covid.vaccinaton.centreLocator.model;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -14,8 +15,8 @@ public class CitizenDTOTest {
     CitizenDTO citizen1;
     CitizenDTO citizen2;
 
-    @BeforeEach
-    void setup() {
+    @Before
+    public void setup() {
         citizen1 = new CitizenDTO();
         citizen1.setAge(20);
         citizen1.setName("test user");
@@ -30,12 +31,12 @@ public class CitizenDTOTest {
 
     @Test
     public void testGetter() {
-        Assertions.assertEquals(citizen1.getAge(), citizen2.getAge());
+        assertEquals(citizen1.getAge(), citizen2.getAge());
     }
 
     @Test
     public void testEquals() {
-        Assertions.assertFalse(citizen1.equals(citizen2));
+        assertFalse(citizen1.equals(citizen2));
     }
 
 }
